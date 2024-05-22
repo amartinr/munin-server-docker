@@ -3,7 +3,7 @@ services:
     image: amartinr/munin-server
     container_name: munin
     ports:
-      - 172.16.1.1:81:80
+      - 80:80
     volumes:
       - munin:/var/lib/munin
       - /srv/munin/conf/munin-nodes.conf:/etc/munin/munin-conf.d/munin-nodes.conf
