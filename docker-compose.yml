@@ -1,0 +1,21 @@
+services:
+  privoxy:
+    image: amartinr/munin-server
+    container_name: munin
+    ports:
+      - 172.16.1.1:81:80
+    volumes:
+      - munin:/var/lib/munin
+      - /srv/munin/conf/munin-nodes.conf:/etc/munin/munin-conf.d/munin-nodes.conf
+    restart: unless-stopped
+    hostname: "munin"
+    networks:
+      - internal
+    command: "/bin/sh -c 'while :; do sleep 300 & wait $${!}; /usr/bin/munin-cron; done & /docker-entrypoint.d/50-spawn-fcgi.sh; nginx -g \"daemon off;\"'"
+
+volumes:
+  munin:
+
+networks:
+  internal:
+    external: true
