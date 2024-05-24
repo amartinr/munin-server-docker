@@ -1,0 +1,13 @@
+#!/bin/sh
+echo "Initializing munin..."
+su - munin -c /usr/bin/munin-cron
+
+echo "Spawning CGI process for graphs..."
+su - munin -c "/usr/bin/spawn-fcgi -s /var/run/munin/fastcgi-graph.sock /usr/share/webapps/munin/cgi/munin-cgi-graph"
+echo "Spawning CGI process for HTML..."
+su - munin -c "/usr/bin/spawn-fcgi -s /var/run/munin/fastcgi-html.sock /usr/share/webapps/munin/cgi/munin-cgi-html"
+
+while :; do
+    sleep 300 & wait ${!}
+    su - munin -c /usr/bin/munin-cron
+done & nginx -g "daemon off;"

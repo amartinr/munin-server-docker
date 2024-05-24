@@ -8,7 +8,6 @@ services:
       - munin:/var/lib/munin
     restart: unless-stopped
     hostname: "munin"
-    #command: "/bin/sh -c 'while :; do sleep 300 & wait $${!}; /usr/bin/munin-cron; done & /docker-entrypoint.d/50-spawn-fcgi.sh; nginx -g \"daemon off;\"'"
 
 volumes:
   munin:
